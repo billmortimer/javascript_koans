@@ -40,12 +40,16 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
-      // Why is the result different?
-      var productsToEat = productsICanEat.filter(function (x) { return x.containsNuts === false })
-      productsToEat = _(productsToEat).any(function (y) {return (!("mushrooms" in y.ingredients))});
-      
-      // The length of the original empty array hasn't changed
-      expect(productsICanEat.length).toBe(0);      
+      // filter out all pizzas that contain nuts (or include pizzas that do not contain nuts)
+      productsICanEat = products.filter(function (x) { return x.containsNuts === false })
+      .filter(function (y) { 
+        // the ingredients in this pizza does not contain mushrooms
+        return _.all(y.ingredients, function (ingredient) {
+          return (ingredient !== 'mushrooms');
+        });
+      });
+
+      expect(productsICanEat.length).toBe(1);      
   });
 
   /*********************************************************************************/
